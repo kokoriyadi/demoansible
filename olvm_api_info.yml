@@ -1,0 +1,22 @@
+---
+- hosts: all
+  collections:
+    - ovirt.ovirt
+  connection: local
+
+  vars_files:
+    - secrets.yml
+  tasks:
+
+    - name: Get API info
+      ovirt_api_info:
+        auth:
+          hostname: "{{ ovirt_hostname }}"
+          username: "{{ ovirt_username }}"
+          password: "{{ ovirt_password }}"
+          insecure: true
+      register: api_results
+          
+    - name: Gather info output
+      debug:
+        msg: "{{ api_results }}"

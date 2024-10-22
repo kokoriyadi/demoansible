@@ -1,0 +1,29 @@
+---
+- hosts: all
+  collections:
+    - ovirt.ovirt
+  connection: local
+  vars_files:
+    - secrets.yml
+  tasks:
+  
+    - name: Create a virtual machine from template
+      ovirt_vm:
+        auth:
+          hostname: "{{ ovirt_hostname }}"
+          username: "{{ ovirt_username }}"
+          password: "{{ ovirt_password }}"
+          insecure: true
+        state: present
+        name: "{{ vm_name }}"
+        template: "{{ template_name }}"
+        cluster: "{{ cluster_name }}"
+        cpu_cores: "{{ cpu_cores }}"
+        cpu_sockets: "{{ cpu_sockets }}"
+        memory: "{{ ram }}"
+        nics:
+          - interface: "{{ network_interface_type }}"
+            name: "{{ nic_name }}"
+        storage_domain: "{{ storage_domain }}"
+        disks:
+          - name: "{{ disk_name }}"

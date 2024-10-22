@@ -1,0 +1,26 @@
+---
+- hosts: all
+  collections:
+    - ovirt.ovirt
+  connection: local
+  vars_files:
+    - secrets.yml
+  tasks:
+  
+    - name: Stop a virtual machine
+      ovirt_vm:
+        auth:
+          hostname: "{{ ovirt_hostname }}"
+          username: "{{ ovirt_username }}"
+          password: "{{ ovirt_password }}"
+          insecure: true
+        name: "{{ item }}"
+        state: stopped
+        force: true
+      with_items:
+        - "{{ vm_name }}"
+      register: stop_vm
+
+    - name: Gather info output
+      debug:
+        msg: "{{ stop_vm }}"

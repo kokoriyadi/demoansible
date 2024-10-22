@@ -1,0 +1,25 @@
+---
+- hosts: all
+  collections:
+    - ovirt.ovirt
+  connection: local
+  vars_files:
+    - secrets.yml
+  tasks:
+  
+    - name: Start a virtual machine
+      ovirt_vm:
+        auth:
+          hostname: "{{ ovirt_hostname }}"
+          username: "{{ ovirt_username }}"
+          password: "{{ ovirt_password }}"
+          insecure: true
+        name: "{{ item }}"
+        state: running
+      with_items:
+        - "{{ vm_name }}"
+      register: start_vm
+
+    - name: Gather info output
+      debug:
+        msg: "{{ start_vm }}"

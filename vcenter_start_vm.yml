@@ -1,0 +1,26 @@
+---
+- hosts: all
+  collections:
+    - community.vmware
+  connection: local
+
+  vars_files:
+    - secrets.yml
+
+  tasks:
+    - name: Start virtual machine
+      vmware_guest_powerstate:
+        hostname: 10.11.8.79
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        name: "{{ item }}" 
+        state: "powered-on"
+        folder: "{{ folder_path }}"
+      register: powerstate
+      with_items:
+      - "{{ vm_name }}"
+      
+    - name:  Output
+      debug:
+        msg: "{{ powerstate }}"

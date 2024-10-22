@@ -1,0 +1,25 @@
+---
+- hosts: all
+  collections:
+    - community.vmware
+  connection: local
+
+  vars_files:
+    - secrets.yml
+
+  tasks:
+    - name: Remove virtual machine
+      vmware_guest:
+        hostname: 10.11.8.79
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        name: "{{ item }}"
+        state: absent
+      with_items:
+      - "{{ vm_name }}"
+      register: remove_vm
+      
+    - name: Gather info output
+      debug:
+        msg: "{{ remove_vm }}"

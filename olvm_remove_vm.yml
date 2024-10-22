@@ -1,0 +1,26 @@
+---
+- hosts: all
+  collections:
+    - ovirt.ovirt
+  connection: local
+  vars_files:
+    - secrets.yml
+  tasks:
+  
+    - name: Remove a virtual machine
+      ovirt_vm:
+        auth:
+          hostname: "{{ ovirt_hostname }}"
+          username: "{{ ovirt_username }}"
+          password: "{{ ovirt_password }}"
+          insecure: true
+        name: "{{ item }}"
+        state: absent
+        force: true
+      with_items:
+        - "{{ vm_name }}"
+      register: remove_vm
+
+    - name: Gather info output
+      debug:
+        msg: "{{ remove_vm }}"
