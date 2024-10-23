@@ -1,0 +1,49 @@
+---
+- hosts: all
+  collections:
+    - community.vmware
+  connection: local
+
+  vars_files:
+    - secrets.yml
+
+  tasks:
+    - name: Create a virtual machine from template
+      vmware_guest:
+        hostname: "{{ ansible_host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: false
+        folder: "{{ folder_path }}"
+        template: "{{ template_name }}"
+        name: "{{ vm_name }}"
+        state: present
+        datacenter: "{{ datacenter_name }}"
+        esxi_hostname: "{{ esxi_hostname }}"
+        disk:
+        - size_gb: "{{ disk_size_gb }}"
+          type: "{{ disk_type }}"
+          datastore: "{{ disk_datastore }}"
+        hardware:
+          memory_mb: "{{ memory_mb }}"
+          num_cpus: "{{ cpu }}"
+          scsi: "{{ scsi }}"
+        networks:
+        - name: "{{ vm_network_name }}"
+          ip: "{{ vm_ip }}"
+          netmask: "{{ netmask }}"
+          gateway: "{{ ip_gateway }}"
+          device_type: "{{ vm_adapter_type }}"
+          type: static
+          connected: true
+          start_connected: true
+        wait_for_ip_address: true
+        wait_for_ip_address_timeout: 600
+        customization:
+          dns_servers: "{{ dns_server }}"
+      delegate_to: localhost
+      register: deploy_vm_template
+      
+    - name: Gather info output
+      debug:
+        msg: "{{ deploy_vm_template }}"
