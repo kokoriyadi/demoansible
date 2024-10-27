@@ -5,7 +5,7 @@
   connection: local
 
   vars_files:
-    - secrets.yml
+    - secretnew.yml
 
   tasks:
     - name: Create a virtual machine from template
