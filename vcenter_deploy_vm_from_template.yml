@@ -10,7 +10,7 @@
   tasks:
     - name: Create a virtual machine from template
       vmware_guest:
-        hostname: "{{ ansible_host }}"
+        hostname: "{{ vcenter_host }}"
         username: "{{ username }}"
         password: "{{ password }}"
         validate_certs: false
