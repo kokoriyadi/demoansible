@@ -5,5 +5,5 @@
   tasks:
     - name: gather information about an AMI using ami-id
       amazon.aws.ec2_ami_info:
-        ec2_region: us-east-1
+        region: us-east-1
         image_ids: ami-036c2987dfef867fb
