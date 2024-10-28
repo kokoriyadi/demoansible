@@ -1,0 +1,14 @@
+---
+- name: Setup httpd server
+  hosts: all
+  tasks:
+   - name: Install httpd
+     ansible.builtin.package:
+      name: httpd
+      state: present
+
+   - name: Start service httpd, if not started
+     ansible.builtin.service:
+      name: httpd
+      state: started
+      enabled: true
