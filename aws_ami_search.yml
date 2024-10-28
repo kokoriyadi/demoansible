@@ -8,3 +8,7 @@
         region: us-east-1
         image_ids: ami-036c2987dfef867fb
       register: ami_find
+
+    - name: Output AMIs Details
+      debug:
+        msg: "AMI ID is found
