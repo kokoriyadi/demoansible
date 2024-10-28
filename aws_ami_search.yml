@@ -11,4 +11,4 @@
 
     - name: Output AMIs Details
       debug:
-        msg: "AMI ID is found
+        msg: "AMI ID is found"
