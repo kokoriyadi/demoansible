@@ -1,0 +1,8 @@
+---
+- name: Search AMIs
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: gather information about an AMI using ami-id
+      amazon.aws.ec2_ami_info:
+        image_ids: ami-036c2987dfef867fb
